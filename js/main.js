@@ -5,7 +5,9 @@ import { getAuth,
          createUserWithEmailAndPassword,
          signInWithEmailAndPassword,
          signOut,
-         onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"
+         onAuthStateChanged,
+         signInWithPopup,
+         GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js"
 
 /* === Firebase Setup === */
 const firebaseConfig = {
@@ -17,6 +19,7 @@ const firebaseConfig = {
 
   const app = initializeApp(firebaseConfig)
   const auth = getAuth(app)
+  const provider = new GoogleAuthProvider()
 
 /* === UI === */
 
@@ -58,7 +61,13 @@ onAuthStateChanged(auth, (user) => {
 /* = Functions - Firebase - Authentication = */
 
 function authSignInWithGoogle() {
-    console.log("Sign in with Google")
+
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            console.log("Signed in with Google")
+        }).catch((error) => {
+            console.error(error.message)
+        })
 }
 
 function authSignInWithEmail() {
